@@ -86,23 +86,4 @@ Edit
 # Save best model
 torch.save(model.state_dict(), "best_model.pth")
 
-# Load model
-model.load_state_dict(torch.load("best_model.pth"))
-model.eval() Folder Structure
-bash
-Copy
-Edit
-project/
-│
-├── train.ipynb                 # Main notebook (Colab)
-├── best_model.pth             # Trained model weights
-├── README.md                  # Documentation
-└── /dtd/images/               # Dataset path (Google Drive)
-📌 Notes
-Ensure that your dataset is mounted via Google Drive using drive.mount('/content/drive').
 
-The classifier head of the ViT model is replaced to match the 47 DTD classes.
-
-You can force remount if necessary: drive.mount('/content/drive', force_remount=True).
-
- 
