@@ -1,89 +1,120 @@
-This project uses a pre-trained Vision Transformer (ViT) model (google/vit-base-patch16-224) to perform texture classification on the Describable Texture Dataset (DTD), achieving high accuracy through transfer learning and data augmentation techniques.
 
- Dataset
-Dataset: Describable Texture Dataset (DTD)
+#  Texture Classification using Vision Transformer (ViT)
 
-Classes: 47 texture categories (e.g., banded, blotchy, bubbly, etc.)
+This project uses a **pre-trained Vision Transformer (ViT)** model (`google/vit-base-patch16-224`) to classify images from the **Describable Texture Dataset (DTD)** into 47 texture categories.  
+The model achieves high accuracy through **transfer learning** and **data augmentation** techniques.
 
-Structure:
+---
 
-markdown
-Copy
-Edit
+##  Dataset
+
+**Name:** [Describable Texture Dataset (DTD)](https://www.robots.ox.ac.uk/~vgg/data/dtd/)  
+**Classes:** 47 texture categories (e.g., `banded`, `blotchy`, `bubbly`, etc.)
+
+**Structure:**
+```
+
 dtd/
-  images/
-    banded/
-    blotchy/
-    ...
-Download and extract the dataset, then place it in your Google Drive (e.g., /content/drive/MyDrive/dtd/images).
+└── images/
+├── banded/
+├── blotchy/
+├── bubbly/
+└── ...
 
- Setup
-Environment
-This code is designed to run on Google Colab using a GPU.
+```
 
-Required Libraries
-Install the required libraries:
+**Setup:**
+1. Download and extract the dataset from the official source.
+2. Place it in your Google Drive:
+```
 
-bash
-Copy
-Edit
+/content/drive/MyDrive/dtd/images
+
+````
+
+---
+
+##  Environment Setup
+
+This code is designed to run on **Google Colab** with **GPU** enabled.
+
+**Required Libraries:**
+```bash
 pip install torch torchvision transformers tqdm
- Model Architecture
-Base Model: ViT Base (Patch16-224)
+````
 
-Modification: Final classification head modified to output 47 classes instead of 1000.
+---
 
-Pretrained: Yes, fine-tuned on DTD.
+## Model Architecture
 
-Training Pipeline
-Data Augmentation & Transforms
-Training:
+* **Base Model:** ViT Base (Patch16-224)
+* **Modification:** Final classification head modified for **47 classes** instead of 1000.
+* **Pretrained:** Yes, on ImageNet, then fine-tuned on DTD.
 
-RandomResizedCrop
+---
 
-RandomHorizontalFlip
+## Training Pipeline
 
-ColorJitter
+### **Data Augmentation & Transforms**
 
-RandomRotation
+**Training:**
 
-Normalize using ViT's mean/std
+* `RandomResizedCrop`
+* `RandomHorizontalFlip`
+* `ColorJitter`
+* `RandomRotation`
+* `Normalize` (using ViT's mean/std)
 
-Validation & Testing:
+**Validation & Testing:**
 
-Resize → CenterCrop → Normalize
+* `Resize` → `CenterCrop` → `Normalize`
 
-Splits
-Train: 70%
+---
 
-Validation: 15%
+##  Data Splits
 
-Test: 15%
+* **Train:** 70%
+* **Validation:** 15%
+* **Test:** 15%
 
-Hyperparameters
-Epochs: 10
+---
 
-Batch Size: 32
 
-Optimizer: Adam
+---
 
-Loss: CrossEntropyLoss
+##  Performance
 
-Performance
-Metric	Value
-Best Validation Acc	78.25%
-Total Classes	47
- Evaluation
-python
-Copy
-Edit
+| Metric              | Value      |
+| ------------------- | ---------- |
+| Best Validation Acc | **78.25%** |
+| Total Classes       | 47         |
+
+---
+
+##  Evaluation
+
+```python
 def evaluate(model, loader):
+    # Evaluation logic
     ...
- Saving & Loading Model
-python
-Copy
-Edit
-# Save best model
-torch.save(model.state_dict(), "best_model.pth")
+```
 
+---
 
+## Saving & Loading Model
+
+```python
+# Save
+torch.save(model.state_dict(), "vit_texture_model.pth")
+
+# Load
+model.load_state_dict(torch.load("vit_texture_model.pth"))
+```
+
+---
+
+##  References
+
+* [Describable Texture Dataset](https://www.robots.ox.ac.uk/~vgg/data/dtd/)
+* [Hugging Face Transformers](https://huggingface.co/docs/transformers/index)
+* [PyTorch](https://pytorch.org/)
